@@ -4,7 +4,7 @@ static char line[LINE_BUFFER_SIZE];
 uint8_t char_count = 0;
 uint8_t c;
 
-static void protocol_read_line() {
+static void protocol_read_line(void) {
 
     do { 
       // line end
@@ -29,7 +29,7 @@ static void protocol_read_line() {
 
         line[char_count++] = c;
       }
-    } while (uartGetCharacter(&c, 1) != UART_RECEIVE_EMPTY);
+    } while (uartGetBlock(CONSOLE_UART, &c, 1, NON_BLOCKING) != UART_RECEIVE_EMPTY);
 }
 
 static void protocol_execute_line(char* line) {
@@ -53,9 +53,9 @@ void protocol_main_loop(void) {
   printf("\nStarting..\n");
 
   while(1) {
-    if (uartGetCharacter(&c, 1) != UART_RECEIVE_EMPTY) {
+    if (uartGetBlock(CONSOLE_UART, &c, 1, NON_BLOCKING) != UART_RECEIVE_EMPTY) {
 
-      protocol_read_line(uart_receive_func_ptr, UART_RECEIVE_EMPTY);
+      protocol_read_line();
 
     } 
 

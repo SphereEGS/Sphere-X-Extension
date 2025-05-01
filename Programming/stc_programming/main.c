@@ -14,7 +14,7 @@ void main(void) {
       CONSOLE_PIN_CONFIG
       );
   global_timer_init();
-  leds_init();
+  ws2812d_init();
   buzzer_init();
   relays_init();
 

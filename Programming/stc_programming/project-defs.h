@@ -2,34 +2,18 @@
 #define PROJECT_DEFS_H
 
 /* gpio-hal Settings */
-#define RELAY1_PORT
-#define RELAY1_PIN
-#define RELAY2_PORT
-#define RELAY2_PIN
-#define RELAY3_PORT
-#define RELAY3_PIN
-#define RELAY4_PORT
-#define RELAY4_PIN
-#define LED_RED1_PORT
-#define LED_RED1_PIN
-#define LED_RED2_PORT
-#define LED_RED2_PIN
-#define LED_RED3_PORT
-#define LED_RED3_PIN
-#define LED_RED4_PORT
-#define LED_RED4_PIN
-#define LED_GREEN1_PORT
-#define LED_GREEN1_PIN
-#define LED_GREEN2_PORT
-#define LED_GREEN2_PIN
-#define LED_GREEN3_PORT
-#define LED_GREEN3_PIN
-#define LED_GREEN4_PORT
-#define LED_GREEN4_PIN
-#define LED_BLINKING_PORT
-#define LED_BLINKING_PIN
-#define BUZZER_PORT
-#define BUZZER_PIN
+#define RELAY1_PORT 3
+#define RELAY1_PIN 7
+#define RELAY2_PORT 3
+#define RELAY2_PIN 6
+#define RELAY3_PORT 3
+#define RELAY3_PIN 5
+#define RELAY4_PORT 3
+#define RELAY4_PIN 4
+#define WS2812_DATA_PORT 3
+#define WS2812_DATA_PIN 3
+#define BUZZER_PORT 3
+#define BUZZER_PIN 2
 
 /* uart-hal Settings */
 #define CONSOLE_SPEED 115200
@@ -54,7 +38,7 @@
 #include <serial-console.h>
 #include <timer-hal.h>
 #include "global_timer.h"
-#include "leds.h"
+#include "ws2812d.h"
 #include "buzzer.h"
 #include "relays.h"
 #include "terminal.h"
