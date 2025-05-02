@@ -7,8 +7,8 @@ void buzzer_init(void) {
   // Initializing the buzzer pins
   gpioConfigure(&buzzer);
 
-  // Setting initial condition to OFF
-  gpioWrite(&buzzer, 0);
+  // Setting ALL Pins to HIGH, Optocoupler means it's active low
+  gpioWrite(&buzzer, 1);
 
 
 }

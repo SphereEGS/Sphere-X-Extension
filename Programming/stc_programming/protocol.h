@@ -1,7 +1,7 @@
 #ifndef PROTOCOL_H
 #define PROTOCOL_H
 
-#define LINE_BUFFER_SIZE 5  // number of characters in one command
+#define LINE_BUFFER_SIZE 10  // number of characters in one command
 #define UART_RECEIVE_EMPTY 0
 
 static void protocol_read_line(void);

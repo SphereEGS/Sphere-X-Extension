@@ -70,6 +70,13 @@ bool read_int(char *line, uint8_t* char_count, int16_t* int_value_ptr) {
   return (true);
 }
 
+void command_reset(command_t* command) {
+  command->command_type = COMMAND_NOT_SET;
+  command->i = INT_ARGS_DEFAULT;
+  command->j = INT_ARGS_DEFAULT;
+  command->command_modal_status = COMMAND_NON_MODAL;
+}
+
 LINE_STATUS terminal_execute_line(char* line) {
 
   uint8_t char_count = 0;
@@ -77,7 +84,7 @@ LINE_STATUS terminal_execute_line(char* line) {
   uint16_t int_value = 0;  // temporary int value that gets read from the terminal then assigned to another variable of any other c component
 
   // Resetting the command
-  memset(&command, 0, sizeof(command_t));
+  command_reset(&command);
 
   while (line[char_count] != 0) {
 
@@ -118,6 +125,18 @@ LINE_STATUS terminal_execute_line(char* line) {
         command.command_type = COMMAND_TEST_INT_READING;
         break;
 
+      case 'T':
+        command.command_type = COMMAND_GET_CURRENT_TIME;
+        break;
+
+      case 'R':
+        command.command_type = COMMAND_RELAY;
+        break;
+
+      case 'L':
+        command.command_type = COMMAND_LED;
+        break;
+
       case 'i':
         // reading int argument for a multi-argument command
         if (!read_int(line, &char_count, &int_value)) {
@@ -146,7 +165,43 @@ LINE_STATUS terminal_execute_line(char* line) {
   switch(command.command_type) {
 
     case COMMAND_TEST_INT_READING:
+    case COMMAND_GET_CURRENT_TIME:
       break;
+
+    case COMMAND_RELAY:
+      if(command.i == INT_ARGS_DEFAULT) {
+        printf("Error: Need to specific Relay Index 'i' argument\n");
+        return LINE_FAILED;
+
+      } else if(command.i >= RELAY_NUM) {
+        printf("Error: Relay Index Out of range! (0 to %d)\n", RELAY_NUM-1);
+        return LINE_FAILED;
+      } 
+
+      if ((command.j > 1) && (command.j != INT_ARGS_DEFAULT)) {
+        printf("Error: Relay Value should be 0 or 1 only!\n");
+        return LINE_FAILED;
+      }
+      break;
+
+    case COMMAND_LED:
+      if(command.i == INT_ARGS_DEFAULT) {
+        printf("Error: Need to specific LED Index 'i' argument\n");
+        return LINE_FAILED;
+
+      } else if(command.i >= RELAY_NUM) {
+        printf("Error: LED Index Out of range! (0 to %d)\n", LED_NUM-1);
+        return LINE_FAILED;
+      } 
+
+      if ((command.j > SUPPORTED_COLORS_NUM) || (command.j == INT_ARGS_DEFAULT)) {
+        printf("Error: Color Index Out of range!\nSupported color map\n0- COLOR_BLACK\n1- COLOR_RED\n2- COLOR_GREEN\n3- COLOR_BLUE\n4- COLOR_YELLOW\n5- COLOR_CYAN\n6- COLOR_MAGENTA\n7- COLOR_WHITE");
+
+        return LINE_FAILED;
+      }
+
+      break;
+
 
     default:
       // if the command_type is not set (COMMAND_NOT_SET).
@@ -162,6 +217,27 @@ LINE_STATUS terminal_execute_line(char* line) {
 
     case COMMAND_TEST_INT_READING:
       printf("Read INT value: %d\n", int_value);
+      break;
+
+    case COMMAND_GET_CURRENT_TIME:
+      printf("Current Time Passed: %lu\n", get_current_time());
+      break;
+
+    case COMMAND_RELAY:
+      if(command.j == INT_ARGS_DEFAULT) {
+        // Reading Relay state
+        printf("Relay %d: %d\n", command.i, relay_get_state(command.i));
+
+
+      } else {
+        // Setting Relay states
+        relay_set_state(command.i, command.j);
+
+      }
+      break;
+
+    case COMMAND_LED:
+      ws2812d_set_led_color(command.i, ind_to_color_map(command.j));
       break;
 
     default:
