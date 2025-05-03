@@ -17,7 +17,7 @@ class Barrier:
     Abstraction for one barrier
 
     To Control a barrier, send the Code:
-    "Ti<relay number>"
+    "Xi<relay number>"
 
     The onboard STC Microcontroller will parse the code and execute command.
     '''
@@ -33,14 +33,14 @@ class Barrier:
         '''
         opens barrier by toggling open relay
         '''
-        command = f"Ti{self.open_relay_ind}"
+        command = f"Xi{self.open_relay_ind}"
         self.gate.send_command(command)
 
     def close(self):
         '''
         closes barrier by toggling close relay
         '''
-        command = f"Ti{self.close_relay_ind}"
+        command = f"Xi{self.close_relay_ind}"
         self.gate.send_command(command)
 
 class Gate:
@@ -77,12 +77,15 @@ class Gate:
         Find CP2102 converter in connected USB devices
         Returns the port if found, None otherwise
         '''
+        print("Looking for CP2102 using Vendor ID and Product ID..")
+
         cp210_vid = 0x10C4  # CP2102 Vendor ID
         cp210_pid = 0xEA60  # CP2102 Product ID
         
         ports = serial.tools.list_ports.comports()
         for port in ports:
             if port.vid == cp210_vid and port.pid == cp210_pid:
+                print(f"Found CP2102 Device at {port.device}\n")
                 return port.device
         return None
 
@@ -108,17 +111,18 @@ class Gate:
 
     def test_connection(self):
         '''
-        Test if the connection is working by sending a newline and expecting 'ok'
+        Test if the connection is working by sending a newline and expecting 'Enter Received..'
         '''
         try:
-            self.send_command('')  # Just send newline
-            response = self.serial_conn.readline().decode().strip()
-            if response.lower() != 'ok':
-                raise Exception("Unexpected response from controller")
+            # Sending enter to STC should respond with "Enter Received.."
+            response = self.send_command('')
+            print(response)
+            if 'Enter Received' not in response:
+                raise Exception(f"Unexpected response from controller: {response}")
         except Exception as e:
             raise Exception(f"Connection test failed: {str(e)}")
 
-    def send_command(self, command):
+    def send_command(self, command) -> str:
         '''
         Send a command to the microcontroller and wait for response
         '''
@@ -127,7 +131,6 @@ class Gate:
         
         try:
             self.serial_conn.write(f"{command}\n".encode())
-            # Wait for response (optional, depending on your microcontroller)
             return self.serial_conn.readline().decode().strip()
         except serial.SerialException as e:
             raise Exception(f"Error sending command: {str(e)}")
