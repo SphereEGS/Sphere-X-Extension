@@ -60,6 +60,7 @@ void protocol_main_loop(void) {
     } 
 
     // real-time processing
+    relay_process_realtime();
     /* report_toggle_led(); */ //TODO:
 
   }

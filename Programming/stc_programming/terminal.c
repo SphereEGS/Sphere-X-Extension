@@ -130,7 +130,11 @@ LINE_STATUS terminal_execute_line(char* line) {
         break;
 
       case 'R':
-        command.command_type = COMMAND_RELAY;
+        command.command_type = COMMAND_RELAY_SET;
+        break;
+
+      case 'X':
+        command.command_type = COMMAND_RELAY_TOGGLE;
         break;
 
       case 'L':
@@ -168,7 +172,7 @@ LINE_STATUS terminal_execute_line(char* line) {
     case COMMAND_GET_CURRENT_TIME:
       break;
 
-    case COMMAND_RELAY:
+    case COMMAND_RELAY_SET:
       if(command.i == INT_ARGS_DEFAULT) {
         printf("Error: Need to specific Relay Index 'i' argument\n");
         return LINE_FAILED;
@@ -182,6 +186,17 @@ LINE_STATUS terminal_execute_line(char* line) {
         printf("Error: Relay Value should be 0 or 1 only!\n");
         return LINE_FAILED;
       }
+      break;
+
+    case COMMAND_RELAY_TOGGLE:
+      if(command.i == INT_ARGS_DEFAULT) {
+        printf("Error: Need to specific Relay Index 'i' argument\n");
+        return LINE_FAILED;
+
+      } else if(command.i >= RELAY_NUM) {
+        printf("Error: Relay Index Out of range! (0 to %d)\n", RELAY_NUM-1);
+        return LINE_FAILED;
+      } 
       break;
 
     case COMMAND_LED:
@@ -223,7 +238,7 @@ LINE_STATUS terminal_execute_line(char* line) {
       printf("Current Time Passed: %lu\n", get_current_time());
       break;
 
-    case COMMAND_RELAY:
+    case COMMAND_RELAY_SET:
       if(command.j == INT_ARGS_DEFAULT) {
         // Reading Relay state
         printf("Relay %d: %d\n", command.i, relay_get_state(command.i));
@@ -235,6 +250,9 @@ LINE_STATUS terminal_execute_line(char* line) {
 
       }
       break;
+
+    case COMMAND_RELAY_TOGGLE:
+      relay_toggle(command.i);
 
     case COMMAND_LED:
       ws2812d_set_led_color(command.i, ind_to_color_map(command.j));
