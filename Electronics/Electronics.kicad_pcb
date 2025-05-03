@@ -3273,6 +3273,108 @@
 			)
 		)
 	)
+	(footprint "MountingHole:MountingHole_2.7mm_Pad"
+		(layer "F.Cu")
+		(uuid "4b803e23-23c1-45bc-ac5b-bd66f1006ad6")
+		(at 211.1 128.6)
+		(descr "Mounting Hole 2.7mm")
+		(tags "mounting hole 2.7mm")
+		(property "Reference" "H4"
+			(at 0 -3.7 0)
+			(layer "F.SilkS")
+			(uuid "14cb180a-f641-482a-af30-208cc351388d")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Value" "MountingHole"
+			(at -1.7 -5.3 0)
+			(layer "F.Fab")
+			(uuid "31b82ce7-479f-4ead-9888-da4cd400a52a")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "a52cf0e6-9b6f-4188-ac65-566b3e16a5a3")
+			(effects
+				(font
+					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Description" "Mounting Hole without connection"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "c5bdaf9a-5aa3-440d-8639-f7c1dc7b6abd")
+			(effects
+				(font
+					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property ki_fp_filters "MountingHole*")
+		(path "/5d8705ed-7450-456c-9b04-62c68a10584e")
+		(sheetname "/")
+		(sheetfile "Electronics.kicad_sch")
+		(attr exclude_from_pos_files exclude_from_bom)
+		(fp_circle
+			(center 0 0)
+			(end 2.7 0)
+			(stroke
+				(width 0.15)
+				(type solid)
+			)
+			(fill no)
+			(layer "Cmts.User")
+			(uuid "2644dd7c-4ea5-462c-ac89-8deb7bdf1ac6")
+		)
+		(fp_circle
+			(center 0 0)
+			(end 2.95 0)
+			(stroke
+				(width 0.05)
+				(type solid)
+			)
+			(fill no)
+			(layer "F.CrtYd")
+			(uuid "e1724ffa-cab9-4610-a0ef-e6789511fb72")
+		)
+		(fp_text user "${REFERENCE}"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(uuid "09baff8e-09b4-45c7-9f79-1f5e4040b8ac")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(pad "1" thru_hole circle
+			(at 0 0)
+			(size 5.4 5.4)
+			(drill 2.7)
+			(layers "*.Cu" "*.Mask")
+			(remove_unused_layers no)
+			(uuid "c93e2360-c4e6-46a1-a313-aa22022a0b24")
+		)
+		(embedded_fonts no)
+	)
 	(footprint "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P2.50mm"
 		(layer "F.Cu")
 		(uuid "64749920-2f62-4ff9-99f4-c46a24fb214a")
