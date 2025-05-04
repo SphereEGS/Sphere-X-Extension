@@ -1,6 +1,6 @@
 #include "project-defs.h"
 
-static const uint8_t RELAY_STATE_MAP[] = {1, 0};
+/* static const uint8_t RELAY_STATE_MAP[] = {1, 0}; */
 
 static GpioConfig relay1 = GPIO_PIN_CONFIG(RELAY1_PORT, RELAY1_PIN, GPIO_PUSH_PULL_MODE);
 static GpioConfig relay2 = GPIO_PIN_CONFIG(RELAY2_PORT, RELAY2_PIN, GPIO_PUSH_PULL_MODE);
@@ -21,21 +21,23 @@ void relays_init(void) {
   gpioConfigure(&relay3);
   gpioConfigure(&relay4);
 
-  // Setting ALL Pins to HIGH, Optocoupler means it's active low
-  gpioWrite(&relay1, 1);
-  gpioWrite(&relay2, 1);
-  gpioWrite(&relay3, 1);
-  gpioWrite(&relay4, 1);
+  // Setting ALL Pins to LOW,
+  gpioWrite(&relay1, 0);
+  gpioWrite(&relay2, 0);
+  gpioWrite(&relay3, 0);
+  gpioWrite(&relay4, 0);
 
 }
 
 void relay_set_state(uint8_t ind, relay_state_t relay_state) {
   //TODO: check if already in toggle state first
-  gpioWrite(relays[ind], RELAY_STATE_MAP[relay_state]);
+  /* gpioWrite(relays[ind], RELAY_STATE_MAP[relay_state]); */
+  gpioWrite(relays[ind], relay_state);
 }
 
 uint8_t relay_get_state(uint8_t ind) {
-  return RELAY_STATE_MAP[gpioRead(relays[ind])];
+  /* return RELAY_STATE_MAP[gpioRead(relays[ind])]; */
+  return gpioRead(relays[ind]);
 }
 
 void relay_toggle(uint8_t ind) {
