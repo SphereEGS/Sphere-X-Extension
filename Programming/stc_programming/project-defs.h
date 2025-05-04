@@ -2,18 +2,18 @@
 #define PROJECT_DEFS_H
 
 /* gpio-hal Settings */
-#define WS2812_DATA_PORT 1
-#define WS2812_DATA_PIN 0
-#define BUZZER_PORT 1
-#define BUZZER_PIN 1
+#define WS2812_DATA_PORT 3
+#define WS2812_DATA_PIN 7
+#define BUZZER_PORT 3
+#define BUZZER_PIN 6
 #define RELAY1_PORT 3
-#define RELAY1_PIN 7
+#define RELAY1_PIN 5
 #define RELAY2_PORT 3
-#define RELAY2_PIN 6
+#define RELAY2_PIN 4
 #define RELAY3_PORT 3
-#define RELAY3_PIN 5
+#define RELAY3_PIN 3
 #define RELAY4_PORT 3
-#define RELAY4_PIN 4
+#define RELAY4_PIN 2
 
 /* uart-hal Settings */
 #define CONSOLE_SPEED 115200
